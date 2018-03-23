@@ -2,37 +2,22 @@
 cmake_minimum_required(VERSION 3.2)
 project(main CXX)
 
-## cflag
-set(CMAKE_CXX_FLAGS "-g -Wall")
+include(cmake/internal_utils.cmake)
+config_compiler_and_linker()  # Defined in internal_utils.cmake.
 
-## add testing 
-option(WITH_TESTS "enable unit tests." TRUE)
-if (WITH_TESTS)
-    add_subdirectory(test/lib/gtest-1.6.0)
+macro(cxx_execute name src)
+    message("D: cxx default flags: " "${cxx_default}")
+    message("D: cxx src list: " "${src}")
+    cxx_executable_with_flags(${name} "${cxx_default}" "" "${src}")
+endmacro()
 
-    enable_testing()
-
-    # Include the gtest library. gtest_SOURCE_DIR is available due to
-    # 'project(gtest)' above.
-    include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
-    macro(test exe)
-        add_executable(${exe} test/${exe}.cpp)
-        target_link_libraries(${exe} gtest gtest_main)
-        add_test(
-            NAME ${exe}_test 
-            COMMAND ${exe}
-        )
-    endmacro(test)
-
-    test(vector)
-endif()
-
+# Where .h files can be found.
 #include_directories()
+
+# Where libraries can be found.
 #link_directories()
 #add_subdirectory()
 
 aux_source_directory(src src_list)
-message("${src_list}")
-add_executable(${PROJECT_NAME} ${src_list})
+cxx_execute(${PROJECT_NAME} ${src_list})
 
