@@ -5,7 +5,7 @@ project(main CXX)
 include(cmake/internal_utils.cmake)
 config_compiler_and_linker()  # Defined in internal_utils.cmake.
 
-# macro to add executable
+# macro
 macro(cxx_execute name)
     message("D: cxx default flags: " "${cxx_default}")
     message("D: cxx src list: " "${ARGN}")
