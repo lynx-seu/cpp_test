@@ -2,7 +2,7 @@
 all:
 	@mkdir -p target
 	@cd target 							&& \
-		cmake .. -G "MSYS Makefiles" 	&& \
+		cmake ..  						&& \
 		make 							&& \
 		./main
 
